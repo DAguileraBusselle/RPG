@@ -1,0 +1,23 @@
+package entidades;
+
+public class monstruo {
+
+	private String clase;
+	private int nivel;
+	private int vida;
+	private int danio;
+
+	public monstruo(String clase, int nivel, int vida, int danio) {
+		this.clase = clase;
+		this.nivel = nivel;
+		this.vida = vida;
+		this.danio = danio;
+	}
+	
+	public monstruo generarMonstro() {
+		
+	}
+	
+	
+	
+}

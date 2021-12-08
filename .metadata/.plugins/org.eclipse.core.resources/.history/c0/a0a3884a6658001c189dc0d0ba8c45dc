@@ -1,0 +1,16 @@
+package entidades;
+
+public class ObjetoActivo extends Objeto {
+
+	public String[] funciones = new String[] {"cura", "escapada", "danio"};
+	
+	private String funcion;
+
+	public ObjetoActivo(String nombre, String descripcion, String funcion) {
+		super(nombre, descripcion);
+		this.funcion = funcion;
+	}
+	
+	
+	
+}

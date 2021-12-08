@@ -1,0 +1,38 @@
+package entidades;
+
+public class ObjetoPasivo extends Objeto{
+
+	public String[] funciones = new String[] {"vida", "velocidad", "danio"};
+	public ObjetoPasivo[] listaObjetosPasivos;
+		
+	
+	private String funcion;
+	
+	
+	public ObjetoPasivo(String nombre, String descripcion, String funcion) {
+		super(nombre, descripcion);
+		this.funcion = funcion;
+	}
+
+
+	public String[] getFunciones() {
+		return funciones;
+	}
+
+
+	public void setFunciones(String[] funciones) {
+		this.funciones = funciones;
+	}
+
+
+	public String getFuncion() {
+		return funcion;
+	}
+
+
+	public void setFuncion(String funcion) {
+		this.funcion = funcion;
+	}
+	
+	
+}

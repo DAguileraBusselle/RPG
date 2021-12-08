@@ -1,0 +1,164 @@
+package mapa;
+
+import java.util.Random;
+import java.util.Scanner;
+
+//import recursos.colores;
+
+public class generacionMapa {
+	
+	
+	public static int POSIBILIDAD_TESORO = 3;
+	
+	public static int POSIBILIDAD_ENEMIGO = 20;
+	
+	public static boolean clear = false;
+
+	public static char[][] mapa;
+	
+	public static int posJugY = 0;
+	public static int posJugX = 0;
+	
+	public static void main(String[] args) {
+		
+		mapa = generarMapa();
+		
+		mostrarMapa(mapa);
+		
+		while(!clear) {
+			navegarMapa();
+			mostrarMapa(mapa);
+		}
+
+	}
+	
+	
+	private static void navegarMapa() {
+		Scanner sc = new Scanner(System.in);
+		
+		mapa[posJugY][posJugX] = 'X';
+		
+		boolean direccionValida = false;
+		
+		System.out.println("Introduzca su movimiento (arriba, abajo, derecha, izquierda)");
+		
+		
+		
+		while(!direccionValida) {
+			String direccion = sc.nextLine();
+			
+				switch (direccion.toLowerCase()) {
+			case "arriba":
+				
+					if(posJugY -1 < 0) {
+						System.out.println("No se puede ir mas arriba");
+					} else {
+						posJugY --;
+						direccionValida = true;
+					}
+									
+				break;
+			case "abajo":
+				
+					if (posJugY +1 > mapa.length) {
+						System.out.println("No se puede ir mas abajo");
+					} else {
+						posJugY ++;
+						direccionValida = true;
+					}
+				
+				break;
+			case "derecha":
+					if (posJugX -1 < 0) {
+						System.out.println("No se puede ir mas a la derecha");
+					} else {
+						posJugX --;
+						direccionValida = true;
+					}
+				
+				break;
+			case "izquierda":
+					if (posJugX +1 > mapa[0].length) {
+						System.out.println("No se puede ir mas a la izquierda");
+					} else {
+						posJugX ++;
+						direccionValida = true;
+					}
+				
+				break;			
+			default:
+				System.out.println("Debe introducir una direccion valida");
+				break;
+				
+			}
+		}
+		
+		
+		mapa[posJugY][posJugX] = 'O';
+		
+	}
+
+
+	public static char[][] generarMapa() {
+		Random rd = new Random();
+		
+		int y = rd.nextInt(10 - 5) + 5;
+		int x = rd.nextInt(10 - 5) + 5;
+		
+		int encounter;
+		
+		char[][] mapa = new char[x][y];
+		
+		
+		for(int i = 0; i < mapa.length;i++) {
+			
+			for(int j = 0; j <mapa[0].length; j++) {
+				encounter = rd.nextInt(100 - 1) + 1;
+							
+				
+				if (encounter >= 1 && encounter <= POSIBILIDAD_TESORO) {
+					mapa[i][j] = 'T';
+				} else if (encounter > POSIBILIDAD_TESORO && encounter <= POSIBILIDAD_ENEMIGO) {
+					mapa[i][j] = 'M';
+				} else {
+					mapa[i][j] = 'X';
+				}
+								
+				
+			}
+			
+		}
+		
+		mapa[posJugX][posJugY] = 'O';
+		
+		return mapa;
+	}
+
+	public static void mostrarMapa(char[][] mapa) {
+		
+		for(int j = 0; j <mapa[0].length; j++) {			
+			System.out.print("____");
+		}
+		System.out.print("_");
+		System.out.println("");
+		
+		
+		for(int i = 0; i < mapa.length;i++) {
+			System.out.print("| ");
+			for(int j = 0; j <mapa[0].length; j++) {			
+			System.out.print(mapa[i][j] + " | ");			
+			}
+			System.out.println("");
+			for(int j = 0; j <mapa[0].length; j++) {			
+				System.out.print("____");
+			}
+			System.out.print("_");
+			System.out.println("");
+			
+		}
+		
+		
+		
+	}
+	
+}

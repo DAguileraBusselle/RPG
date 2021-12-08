@@ -1,0 +1,11 @@
+package entidades;
+
+public class jugador {
+
+	private int velocidad;
+	private int vida;
+	private int nivel;
+	private 
+	
+	
+}

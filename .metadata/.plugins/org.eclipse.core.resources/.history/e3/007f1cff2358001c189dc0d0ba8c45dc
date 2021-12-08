@@ -1,0 +1,42 @@
+package mapa;
+
+import java.util.Random;
+
+public class generacionMapa {
+
+	public static int POSIBILIDAD_TESORO = 10;
+	
+	public static int POSIBILIDAD_ENEMIGO = 25;
+	
+	public static void main(String[] args) {
+		Random rd = new Random();
+						
+		int y = rd.nextInt(10 - 5) + 5;
+		int x = rd.nextInt(10 - 5) + 5;
+		
+		char[][] mapa = new char[x][y];
+		//char[][] mapa = {{'X','X','X','T','X'}, {'M','X','X','M','X'}, {'X','X','X','X','X'}};
+		
+		
+		for(int i = 0; i < mapa.length;i++) {
+			
+			for(int j = 0; j <mapa[0].length; j++) {			
+				mapa[i][j] = 'X';
+			}
+			
+		}
+		
+		for(int i = 0; i < mapa.length;i++) {
+			System.out.println("");
+			for(int j = 0; j <mapa[0].length; j++) {			
+				System.out.print("[" + mapa[i][j] + "] ");
+			}
+			System.out.println("");
+		}
+		
+		
+		
+
+	}
+
+}
