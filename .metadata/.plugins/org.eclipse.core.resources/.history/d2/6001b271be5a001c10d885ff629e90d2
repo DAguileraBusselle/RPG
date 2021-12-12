@@ -1,0 +1,154 @@
+package eventos;
+
+import java.util.Random;
+import java.util.Scanner;
+
+import entidades.Monstruo;
+import entidades.Objeto;
+import entidades.ObjetoActivo;
+import main.RPG;
+
+public class encounter {
+
+	Random rd = new Random();
+	static Scanner sc = new Scanner(System.in);
+	
+	public Boolean decidirAccion(Monstruo mons) {
+		boolean encounterDerrotado = false;
+		boolean opcionValida = false;
+		
+		while(!opcionValida) {
+			System.out.println("¿Que haras?\n\t1 - ATACAR\n\t2 - HUIR");
+			String decision = sc.nextLine();
+			
+				switch (decision.toLowerCase()) {
+			case "1":
+				
+				opcionValida = true;
+				//combate(mons);
+				encounterDerrotado = true;		
+				
+				break;
+			case "2":
+				
+				opcionValida = true;
+				
+				break;
+						
+			default:
+				System.out.println("Debe introducir una decision valida");
+				break;
+				
+			}
+				
+				
+		}
+		int expMons = (mons.getNivel() * 2) + (RPG.PISO *2);
+		RPG.EXPERIENCIA += expMons;
+		System.out.println("CONSEGUISTE " + expMons + "EXP");
+		sc.nextLine();
+		if (RPG.EXPERIENCIA >= RPG.jugador.getNivel() * 100) {
+			RPG.jugador.setNivel(RPG.jugador.getNivel() + 1);
+			RPG.VIDA_MAX += RPG.jugador.getNivel() * 50;
+			RPG.jugador.setVida(RPG.VIDA_MAX);
+			RPG.jugador.setDanio(RPG.jugador.getDanio() + (RPG.jugador.getNivel() * 5));
+			RPG.EXPERIENCIA = 0;
+			System.out.println("HAS SUBIDO A NIVEL " + RPG.jugador.getNivel());
+		}
+		
+		return encounterDerrotado;
+		
+	}
+	
+	private void combate(Monstruo mons) {
+		
+				
+		
+		while(mons.getVida() > 0) {
+			boolean defender = false;
+			boolean opcionValida = false;
+			while(!opcionValida) {
+		
+			System.out.println("Elige\n\t1 - ATACAR\n\t2 - DEFENDER");
+			String decision = sc.nextLine();
+			
+				switch (decision.toLowerCase()) {
+			case "1":
+				mons.setVida(mons.getVida() - RPG.jugador.getDanio());	
+				opcionValida = true;
+				defender = false;
+				break;
+			case "2":				
+				opcionValida = true;
+				defender = true;
+				break;
+						
+			default:
+				System.out.println("Debe introducir una decision valida");
+				break;
+				
+				}
+				
+				
+			}
+			
+			System.out.println("JUGADOR: " + RPG.jugador.getVida() + "HP");
+			System.out.println(mons.getClase() + ": " + mons.getVida() + "HP");	
+			
+			System.out.println("______________________________________________");
+			
+			System.out.println("ATACA EL " + mons.getClase());
+			if (defender) {
+				System.out.println("PERO DEFIENDES EL DAÑO");
+			} else {
+				RPG.jugador.setVida(RPG.jugador.getVida() - mons.getDanio());
+			}
+			
+			if (RPG.jugador.getVida() <= 0) {
+				for (int i = 0; i < 35; ++i) System.out.println();
+				System.out.println("HAS MUERTO");
+				for (int i = 0; i < 24; ++i) System.out.println();
+				System.exit(0);
+			}
+			
+			System.out.println("______________________________________________");
+			
+			System.out.println("JUGADOR: " + RPG.jugador.getVida() + "HP");
+			System.out.println(mons.getClase() + ": " + mons.getVida() + "HP");
+		}
+	}
+
+	public Monstruo generarMonstruo() {
+		Monstruo monstruo;
+		String clase = Monstruo.clases[rd.nextInt(2 - 0) + 0];
+		int vidaBase = 0;
+		int danioBase = 0;
+				
+		switch (clase) {
+			case "zombie":
+				vidaBase = 75;
+				danioBase = 15;
+			break;
+	
+			case "esqueleto":
+				vidaBase = 45;
+				danioBase = 20;
+			break;
+			
+			case "lagarto":
+				vidaBase = 125;
+				danioBase = 5;
+			break;
+		}
+		
+		
+		int nivel = rd.nextInt((RPG.PISO*10) - (RPG.PISO*10 - 9)) + (RPG.PISO*10 - 9);
+		
+		int vida = nivel * 10 + vidaBase;
+		int danio = nivel * 2 + danioBase;
+		
+		monstruo = new Monstruo(clase, nivel, vida, danio);
+				
+		return monstruo;
+	}
+}

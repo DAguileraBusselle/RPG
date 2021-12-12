@@ -1,0 +1,38 @@
+package view;
+
+import javax.swing.JFrame;
+import javax.swing.JTextPane;
+import java.awt.Color;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+
+public class VRPG extends JFrame {
+	
+	public JTextField textField;
+	public JButton btnNewButton;
+	public JTextPane textPane;
+	public static String BTN_ACTION = "";
+	
+	public VRPG() {
+		getContentPane().setLayout(null);
+		
+		textPane = new JTextPane();
+		textPane.setBackground(new Color(51, 51, 51));
+		textPane.setForeground(new Color(153, 102, 255));
+		textPane.setBounds(10, 11, 505, 388);
+		getContentPane().add(textPane);
+		
+		textField = new JTextField();
+		textField.setBounds(10, 410, 402, 24);
+		getContentPane().add(textField);
+		textField.setColumns(10);
+		
+		btnNewButton = new JButton("");
+		btnNewButton.setBounds(422, 410, 93, 24);
+		getContentPane().add(btnNewButton);
+	}
+	public void hacerVisible() {
+		setVisible(true);
+		
+	}
+}

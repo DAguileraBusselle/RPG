@@ -1,0 +1,344 @@
+package mapa;
+
+import java.util.Random;
+import java.util.Scanner;
+
+import entidades.Monstruo;
+import entidades.ObjetoActivo;
+import entidades.ObjetoPasivo;
+import eventos.encounter;
+import main.RPG;
+
+//import recursos.colores;
+
+
+public class generacionMapa {
+	private static encounter enc = new encounter();	
+	
+	static Scanner sc = new Scanner(System.in);
+		
+	public static boolean hayMonstruos(char[][] mapa) {
+		boolean hayMonstruos = false;
+		
+		for(int i = 0; i < mapa.length;i++) {			
+			for(int j = 0; j <mapa[0].length; j++) {
+				if (mapa[i][j] == 'M') {
+					hayMonstruos = true;
+				}
+				
+			}
+			
+		}
+		
+		
+		return hayMonstruos;
+	}
+
+
+	public static void navegarMapa(char[][] mapa) {
+		
+		int posJugYinicial = RPG.posJugY;
+		int posJugXinicial = RPG.posJugX;
+		int casillas = RPG.jugador.getVelocidad();
+		
+		boolean direccionValida = false;
+				
+		System.out.println("HP: " + RPG.jugador.getVida() +
+							"\nDMG: " + RPG.jugador.getDanio()+
+							"\nSPEED: " + RPG.jugador.getVelocidad() +
+							"\nLVL: " + RPG.jugador.getNivel());
+		while(!direccionValida) { 
+			System.out.println("Introduzca su movimiento (arriba, abajo, derecha, izquierda) o inventario");
+			String direccion = sc.nextLine();
+			
+				switch (direccion.toLowerCase()) {
+			case "arriba":
+				
+					if(RPG.posJugY -casillas < 0) {
+						System.out.println("No se puede ir mas arriba");
+					} else {
+						RPG.posJugY --;
+						direccionValida = true;
+					}
+									
+				break;
+			case "abajo":
+				
+					if (RPG.posJugY +casillas > mapa.length) {
+						System.out.println("No se puede ir mas abajo");
+					} else {
+						RPG.posJugY ++;
+						direccionValida = true;
+					}
+				
+				break;
+			case "derecha":
+					if (RPG.posJugX +casillas > mapa[0].length) {
+						System.out.println("No se puede ir mas a la derecha");
+					} else {
+						RPG.posJugX ++;
+						direccionValida = true;
+					}
+				
+				break;
+			case "izquierda":
+					if (RPG.posJugX -casillas < 0) {
+						System.out.println("No se puede ir mas a la izquierda");
+					} else {
+						RPG.posJugX --;
+						direccionValida = true;
+					}
+				
+				break;	
+			case "inventario":
+				System.out.println(RPG.jugador.getInventario().toString());	
+				//navegarInventario();
+				break;
+			default:
+				System.out.println("Debe introducir una direccion valida");
+				break;
+				
+			}
+		}
+		
+		if (mapa[RPG.posJugY][RPG.posJugX] == 'M') {
+			
+			Monstruo mons = enc.generarMonstruo();
+			
+			System.out.println(mons.toString());
+			
+			
+			
+			if (enc.decidirAccion(mons)) {
+				mapa[RPG.posJugY][RPG.posJugX] = 'O';
+				mapa[posJugYinicial][posJugXinicial] = ' ';
+				
+			} else {
+				RPG.posJugY = posJugYinicial;
+				RPG.posJugX = posJugXinicial;
+			}
+			
+		} else {
+			mapa[RPG.posJugY][RPG.posJugX] = 'O';
+			mapa[posJugYinicial][posJugXinicial] = ' ';
+		}
+		
+		
+		
+		if (!hayMonstruos(mapa) && RPG.posJugY == mapa.length - 1 && RPG.posJugX == mapa[0].length - 1) {
+			RPG.clear = true;
+		}
+		
+		
+		
+		
+	}
+
+
+	private static void navegarInventario() {
+		boolean opcionValida = false;
+		
+		
+		while(!opcionValida) { 
+			System.out.println("Introduzca su opcion (1 - 7) o cancelar");
+			String opcion = sc.nextLine();
+			
+				switch (opcion.toLowerCase()) {
+			case "1":
+				if(RPG.jugador.getInventario().getItemPas1() == null) {
+					System.out.println("No hay un objeto ahi");
+				} else {
+					interactuarObjetoPas(RPG.jugador.getInventario().getItemPas1());
+				}
+				opcionValida = true;								
+				break;
+			case "2":
+				
+				if(RPG.jugador.getInventario().getItemPas2() == null) {
+					System.out.println("No hay un objeto ahi");
+				} else {
+					interactuarObjetoPas(RPG.jugador.getInventario().getItemPas2());
+				}
+				opcionValida = true;
+				break;
+			case "3":
+					
+				if(RPG.jugador.getInventario().getItem1() == null) {
+					System.out.println("No hay un objeto ahi");
+				} else {
+					interactuarObjetoAct(RPG.jugador.getInventario().getItem1());
+				}
+				opcionValida = true;
+				break;
+			case "4":
+				if(RPG.jugador.getInventario().getItem2() == null) {
+					System.out.println("No hay un objeto ahi");
+				} else {
+					interactuarObjetoAct(RPG.jugador.getInventario().getItem2());
+				}					
+				opcionValida = true;
+				break;	
+			case "5":
+				if(RPG.jugador.getInventario().getItem3() == null) {
+					System.out.println("No hay un objeto ahi");
+				} else {
+					interactuarObjetoAct(RPG.jugador.getInventario().getItem3());
+				}
+				opcionValida = true;
+				break;
+			case "6":
+				if(RPG.jugador.getInventario().getItem4() == null) {
+					System.out.println("No hay un objeto ahi");
+				} else {
+					interactuarObjetoAct(RPG.jugador.getInventario().getItem4());
+				}
+				opcionValida = true;
+				break;
+			case "7":
+				if(RPG.jugador.getInventario().getItem5() == null) {
+					System.out.println("No hay un objeto ahi");
+				} else {
+					interactuarObjetoAct(RPG.jugador.getInventario().getItem5());
+				}
+				opcionValida = true;
+				break;
+			case "cancelar":
+				opcionValida = true;
+				
+				break;
+			default:
+				System.out.println("Debe introducir una opcion valida");
+				break;
+				
+			}
+		}
+		
+	}
+
+
+	private static void interactuarObjetoAct(ObjetoActivo item) {
+		boolean opcionValida = false;
+		
+		
+		while(!opcionValida) { 
+			System.out.println("Que desea hacer con el item {" + item.getNombre() + "}" + 
+							"\n\t1_USAR" +
+							"\n\t2_ELIMINAR" +
+							"\n\t3_CANCELAR");
+			
+			String opcion = sc.nextLine();
+			
+				switch (opcion.toLowerCase()) {
+			case "usar":
+				
+				usarObjetoAct(item);
+				opcionValida = true;							
+				break;
+			case "eliminar":
+				
+				item = null;
+				opcionValida = true;
+				break;
+			case "cancelar":
+					
+				opcionValida = true;
+				
+				break;
+			
+			default:
+				System.out.println("Debe introducir una opcion valida");
+				break;
+				
+			}
+		}
+		
+	}
+
+
+	private static void usarObjetoAct(ObjetoActivo item) {
+		switch (item.getFuncion()) {
+		case "cura":
+			RPG.jugador.setVida(RPG.jugador.getVida() + item.getIntensidad());
+			System.out.println("TE HAS CURADO, AHORA TU VIDA ES: " + RPG.jugador.getVida());
+			break;
+
+		case "escapada":
+			//TODO: IMPLEMENTAR POSIBILIDAD DE ESCAPAR ENCOUNTER
+			break;
+		case "danio":
+			RPG.jugador.setDanio(RPG.jugador.getDanio() + item.getIntensidad());
+			break;
+		}
+		
+	}
+
+
+	private static void interactuarObjetoPas(ObjetoPasivo itemPas1) {
+		System.out.println("TODAVIA NO ESTA HECHO");
+		
+	}
+
+
+	public static char[][] generarMapa() {
+		Random rd = new Random();
+		
+		int y = rd.nextInt(10 - 5) + 5;
+		int x = rd.nextInt(10 - 5) + 5;
+		
+		int encounter;
+		
+		char[][] mapa = new char[x][y];
+		
+		
+		for(int i = 0; i < mapa.length;i++) {
+			
+			for(int j = 0; j <mapa[0].length; j++) {
+				encounter = rd.nextInt(100 - 1) + 1;
+							
+				
+				if (encounter >= 1 && encounter <= RPG.POSIBILIDAD_TESORO) {
+					mapa[i][j] = 'T';
+				} else if (encounter > RPG.POSIBILIDAD_TESORO && encounter <= RPG.POSIBILIDAD_ENEMIGO) {
+					mapa[i][j] = 'M';
+				} else {
+					mapa[i][j] = ' ';
+				}
+								
+				
+			}
+			
+		}
+		
+		mapa[RPG.posJugX][RPG.posJugY] = 'O';
+		
+		return mapa;
+	}
+
+	public static void mostrarMapa(char[][] mapa) {
+		
+		for(int j = 0; j <mapa[0].length; j++) {			
+			System.out.print("____");
+		}
+		System.out.print("_");
+		System.out.println("");
+		
+		
+		for(int i = 0; i < mapa.length;i++) {
+			System.out.print("| ");
+			for(int j = 0; j <mapa[0].length; j++) {			
+			System.out.print(mapa[i][j] + " | ");			
+			}
+			System.out.println("");
+			for(int j = 0; j <mapa[0].length; j++) {			
+				System.out.print("____");
+			}
+			System.out.print("_");
+			System.out.println("");
+			
+		}
+		
+		
+		
+	}
+	
+}
