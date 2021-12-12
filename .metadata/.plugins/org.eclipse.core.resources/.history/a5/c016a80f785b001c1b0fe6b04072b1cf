@@ -122,7 +122,7 @@ public class encounter {
 			
 		}
 		
-		int expMons = (mons.getNivel() * 3) + (RPG.PISO *7);
+		int expMons = (mons.getNivel() * 2) + (RPG.PISO *10);
 		RPG.EXPERIENCIA += expMons;
 		System.out.println("CONSEGUISTE " + expMons + "EXP");
 		RPG.CONT_MONSTRUOS_DERROTADOS++;
@@ -166,8 +166,8 @@ public class encounter {
 		
 		int nivel = rd.nextInt((RPG.PISO*10) - (RPG.PISO*10 - 9)) + (RPG.PISO*10 - 9);
 		
-		int vida = (nivel * 11) + (vidaBase * 1);
-		int danio = (nivel * 3) + (danioBase * 1);
+		int vida = nivel * 10 + vidaBase;
+		int danio = nivel * 2 + danioBase;
 		
 		monstruo = new Monstruo(clase, nivel, vida, danio);
 				

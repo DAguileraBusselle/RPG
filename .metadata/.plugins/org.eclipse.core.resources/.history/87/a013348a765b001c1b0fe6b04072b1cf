@@ -63,13 +63,11 @@ public class RPG {
 			
 			for (int i = 0; i < 50; ++i) System.out.println();
 			
-			System.out.println("PISO: " + PISO);
 			generacionMapa.mostrarMapa(mapa);
 			
 			while(!clear) {
 				generacionMapa.navegarMapa(mapa);
 				for (int i = 0; i < 50; ++i) System.out.println();
-				System.out.println("PISO: " + PISO);
 				generacionMapa.mostrarMapa(mapa);
 				
 				if(TOTAL_MONSTRUOS >= PISO*5) {
@@ -111,7 +109,6 @@ public class RPG {
 			
 			clear = false;
 			contVictoria = 0;
-			CONT_MONSTRUOS_DERROTADOS = 0;
 		}
 		
 		TEXTO_PANTALLA += "\nHAS ESCAPADO DEL DUNGEON";

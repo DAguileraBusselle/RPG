@@ -17,7 +17,7 @@ public class RPG {
 	
 	public static int ULTIMO_PISO = 100;
 	
-	public static int PISO = 1;
+	public static int PISO = 50;
 	
 	public static int POSIBILIDAD_TESORO = 5;
 	public static int POSIBILIDAD_OBJ_PAS = 20;

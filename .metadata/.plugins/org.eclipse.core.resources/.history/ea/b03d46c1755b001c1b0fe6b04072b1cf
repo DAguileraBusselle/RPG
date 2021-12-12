@@ -54,6 +54,12 @@ public class generacionMapa {
 		
 		
 		exp += sbExp.toString() + "]";
+		
+		RPG.TEXTO_PANTALLA += "\nHP: " + RPG.jugador.getVida() +
+			"\nDMG: " + RPG.jugador.getDanio()+
+			"\nSPEED: " + RPG.jugador.getVelocidad() +
+			"\nLVL: " + RPG.jugador.getNivel() +
+			"\n" + exp;
 			
 		System.out.println("HP: " + RPG.jugador.getVida() + " | " + RPG.VIDA_MAX +
 							"\nDMG: " + RPG.jugador.getDanio()+
@@ -179,7 +185,7 @@ public class generacionMapa {
 		
 		
 		if(RPG.TOTAL_MONSTRUOS >= RPG.PISO*5) {
-			if (RPG.CONT_MONSTRUOS_DERROTADOS >= RPG.PISO*5 && RPG.posJugY == mapa.length - 1 && RPG.posJugX == mapa[0].length - 1) {
+			if (RPG.CONT_MONSTRUOS_DERROTADOS == RPG.PISO*5 && RPG.posJugY == mapa.length - 1 && RPG.posJugX == mapa[0].length - 1) {
 				RPG.clear = true;
 			}
 		} else if (RPG.CONT_MONSTRUOS_DERROTADOS == RPG.TOTAL_MONSTRUOS && RPG.posJugY == mapa.length - 1 && RPG.posJugX == mapa[0].length - 1) {

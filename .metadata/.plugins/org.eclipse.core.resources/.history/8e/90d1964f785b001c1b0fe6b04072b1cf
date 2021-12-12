@@ -166,8 +166,8 @@ public class encounter {
 		
 		int nivel = rd.nextInt((RPG.PISO*10) - (RPG.PISO*10 - 9)) + (RPG.PISO*10 - 9);
 		
-		int vida = (nivel * 11) + (vidaBase * 1);
-		int danio = (nivel * 3) + (danioBase * 1);
+		int vida = (nivel * 10) + (vidaBase * nivel);
+		int danio = (nivel * 2) + (danioBase * nivel);
 		
 		monstruo = new Monstruo(clase, nivel, vida, danio);
 				

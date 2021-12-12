@@ -19,7 +19,7 @@ public class encounter {
 		boolean opcionValida = false;
 		
 		while(!opcionValida) {
-			System.out.println("¿Que haras?\n\t1 - COMBATE\n\t2 - HUIR");
+			System.out.println("¿Que haras?\n\t1 - ATACAR\n\t2 - HUIR");
 			String decision = sc.nextLine();
 			
 				switch (decision.toLowerCase()) {
@@ -56,7 +56,6 @@ public class encounter {
 		
 		while(mons.getVida() > 0) {
 			boolean defender = false;
-			boolean atacar = false;
 			boolean opcionValida = false;
 			while(!opcionValida) {
 		
@@ -68,9 +67,8 @@ public class encounter {
 				switch (decision.toLowerCase()) {
 			case "1":
 				mons.setVida(mons.getVida() - RPG.jugador.getDanio());	
-				
 				opcionValida = true;
-				atacar = true;
+				defender = false;
 				break;
 			case "2":				
 				opcionValida = true;
@@ -80,6 +78,7 @@ public class encounter {
 				System.out.println(RPG.jugador.getInventario().toString());	
 				generacionMapa.navegarInventario();
 				opcionValida = true;
+				defender = true;
 				break;
 						
 			default:
@@ -90,20 +89,19 @@ public class encounter {
 				
 				
 			}
+			System.out.println("______________________________________________");
 			
+			System.out.println("ATACAS AL " + mons.getClase().toUpperCase());
+			
+			System.out.println("JUGADOR: " + RPG.jugador.getVida() + "HP");
+			System.out.println(mons.getClase() + ": " + mons.getVida() + "HP");	
+			
+			System.out.println("______________________________________________");
 			
 			
 			if (defender) {
 				System.out.println("DEFIENDES EL DAÑO");
-			} else if (mons.getVida() > 0 && atacar){
-				System.out.println("______________________________________________");
-				
-				System.out.println("ATACAS AL " + mons.getClase().toUpperCase());
-				
-				System.out.println("JUGADOR: " + RPG.jugador.getVida() + "HP");
-				System.out.println(mons.getClase() + ": " + mons.getVida() + "HP");	
-				
-				System.out.println("______________________________________________");
+			} else if (mons.getVida() > 0){
 				System.out.println("ATACA EL " + mons.getClase().toUpperCase());
 				RPG.jugador.setVida(RPG.jugador.getVida() - mons.getDanio());
 			System.out.println("______________________________________________");
@@ -122,14 +120,14 @@ public class encounter {
 			
 		}
 		
-		int expMons = (mons.getNivel() * 3) + (RPG.PISO *7);
+		int expMons = (mons.getNivel() * 2) + (RPG.PISO *10);
 		RPG.EXPERIENCIA += expMons;
 		System.out.println("CONSEGUISTE " + expMons + "EXP");
 		RPG.CONT_MONSTRUOS_DERROTADOS++;
 		sc.nextLine();
 		
 		if (RPG.EXPERIENCIA >= RPG.jugador.getNivel() * 100) {
-			int expExtra = RPG.EXPERIENCIA - RPG.jugador.getNivel() * 100;
+			int expExtra = RPG.EXPERIENCIA - RPG.PISO * 100;
 			RPG.jugador.setNivel(RPG.jugador.getNivel() + 1);
 			RPG.VIDA_MAX += RPG.jugador.getNivel() * 50;
 			RPG.jugador.setVida(RPG.VIDA_MAX);
@@ -166,8 +164,8 @@ public class encounter {
 		
 		int nivel = rd.nextInt((RPG.PISO*10) - (RPG.PISO*10 - 9)) + (RPG.PISO*10 - 9);
 		
-		int vida = (nivel * 11) + (vidaBase * 1);
-		int danio = (nivel * 3) + (danioBase * 1);
+		int vida = nivel * 10 + vidaBase;
+		int danio = nivel * 2 + danioBase;
 		
 		monstruo = new Monstruo(clase, nivel, vida, danio);
 				

@@ -80,6 +80,7 @@ public class encounter {
 				System.out.println(RPG.jugador.getInventario().toString());	
 				generacionMapa.navegarInventario();
 				opcionValida = true;
+				yusy
 				break;
 						
 			default:
@@ -122,14 +123,14 @@ public class encounter {
 			
 		}
 		
-		int expMons = (mons.getNivel() * 3) + (RPG.PISO *7);
+		int expMons = (mons.getNivel() * 2) + (RPG.PISO *10);
 		RPG.EXPERIENCIA += expMons;
 		System.out.println("CONSEGUISTE " + expMons + "EXP");
 		RPG.CONT_MONSTRUOS_DERROTADOS++;
 		sc.nextLine();
 		
 		if (RPG.EXPERIENCIA >= RPG.jugador.getNivel() * 100) {
-			int expExtra = RPG.EXPERIENCIA - RPG.jugador.getNivel() * 100;
+			int expExtra = RPG.EXPERIENCIA - RPG.PISO * 100;
 			RPG.jugador.setNivel(RPG.jugador.getNivel() + 1);
 			RPG.VIDA_MAX += RPG.jugador.getNivel() * 50;
 			RPG.jugador.setVida(RPG.VIDA_MAX);
@@ -166,8 +167,8 @@ public class encounter {
 		
 		int nivel = rd.nextInt((RPG.PISO*10) - (RPG.PISO*10 - 9)) + (RPG.PISO*10 - 9);
 		
-		int vida = (nivel * 11) + (vidaBase * 1);
-		int danio = (nivel * 3) + (danioBase * 1);
+		int vida = nivel * 10 + vidaBase;
+		int danio = nivel * 2 + danioBase;
 		
 		monstruo = new Monstruo(clase, nivel, vida, danio);
 				
