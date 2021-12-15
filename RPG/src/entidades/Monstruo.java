@@ -5,17 +5,19 @@ package entidades;
 public class Monstruo {
 
 	
-	public static String[] clases = new String[] {"zombie", "esqueleto", "lagarto"};
+	
 	private String clase;
 	private int nivel;
 	private int vida;
 	private int danio;
+	private String descripcion;
 
-	public Monstruo(String clase, int nivel, int vida, int danio) {
+	public Monstruo(String clase, int nivel, int vida, int danio, String descripcion) {
 		this.clase = clase;
 		this.nivel = nivel;
 		this.vida = vida;
 		this.danio = danio;
+		this.descripcion = descripcion;
 	}
 	
 	
@@ -23,6 +25,18 @@ public class Monstruo {
 	@Override
 	public String toString() {
 		return "Te encuentras con un " + clase + " de nivel " + nivel + " [vida: " + vida + " || daño: " + danio + "]";
+	}
+
+
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
 
 

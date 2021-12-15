@@ -66,7 +66,8 @@ public class generacionMapa {
 			System.out.println("Introduzca su movimiento (arriba, abajo, derecha, izquierda) o inventario");
 			String direccion = sc.nextLine();
 			
-			if ((direccion.equals("arriba") || direccion.equals("abajo") || direccion.equals("derecha") || direccion.equals("izquierda")) && RPG.jugador.getVelocidad() > 1) {
+			if (((direccion.equals("arriba")) || direccion.equals("abajo") || direccion.equals("derecha") || direccion.equals("izquierda") ||
+					direccion.equals("a") || direccion.equals("w") || direccion.equals("s") || direccion.equals("d")) && RPG.jugador.getVelocidad() > 1) {
 								
 				boolean valido = true;
 				do {
@@ -91,11 +92,9 @@ public class generacionMapa {
 				
 				
 			}
-			
-			
-			
+						
 				switch (direccion.toLowerCase()) {
-			case "arriba":
+			case "arriba", "w":
 				
 					if(RPG.posJugY - casillas < 0) {
 						System.out.println("No se puede ir mas arriba");
@@ -105,7 +104,7 @@ public class generacionMapa {
 					}
 									
 				break;
-			case "abajo":
+			case "abajo", "s":
 				
 					if (RPG.posJugY + casillas == mapa.length) {
 						System.out.println("No se puede ir mas abajo");
@@ -115,7 +114,7 @@ public class generacionMapa {
 					}
 				
 				break;
-			case "derecha":
+			case "derecha", "d":
 					if (RPG.posJugX + casillas == mapa[0].length) {
 						System.out.println("No se puede ir mas a la derecha");
 					} else {
@@ -124,7 +123,7 @@ public class generacionMapa {
 					}
 				
 				break;
-			case "izquierda":
+			case "izquierda", "a":
 					if (RPG.posJugX - casillas < 0) {
 						System.out.println("No se puede ir mas a la izquierda");
 					} else {
@@ -133,7 +132,7 @@ public class generacionMapa {
 					}
 				
 				break;	
-			case "inventario":
+			case "inventario", "i":
 				System.out.println(RPG.jugador.getInventario().toString());	
 				navegarInventario();
 				break;
@@ -274,7 +273,7 @@ public class generacionMapa {
 				}
 				opcionValida = true;
 				break;
-			case "cancelar":
+			case "cancelar", "c":				
 				opcionValida = true;
 				
 				break;
@@ -486,25 +485,37 @@ public class generacionMapa {
 		int encounter;
 		
 		char[][] mapa = new char[x][y];
-		
-		
-		for(int i = 0; i < mapa.length;i++) {
 			
-			for(int j = 0; j <mapa[0].length; j++) {
-				encounter = rd.nextInt(100 - 1) + 1;
-							
+		if (RPG.PISO % 5 == 0) {
+			for(int i = 0; i < mapa.length;i++) {
 				
-				if (encounter >= 1 && encounter <= RPG.POSIBILIDAD_TESORO) {
-					mapa[i][j] = 'T';
-				} else if (encounter > RPG.POSIBILIDAD_TESORO && encounter <= RPG.POSIBILIDAD_ENEMIGO) {
-					mapa[i][j] = 'M';
-				} else {
+				for(int j = 0; j <mapa[0].length; j++) {
+					
 					mapa[i][j] = ' ';
 				}
-								
 				
 			}
 			
+			mapa[mapa.length/2][mapa[0].length/2] = 'M';
+		} else {
+			for(int i = 0; i < mapa.length;i++) {
+				
+				for(int j = 0; j <mapa[0].length; j++) {
+					encounter = rd.nextInt(100 - 1) + 1;
+								
+					
+					if (encounter >= 1 && encounter <= RPG.POSIBILIDAD_TESORO) {
+						mapa[i][j] = 'T';
+					} else if (encounter > RPG.POSIBILIDAD_TESORO && encounter <= RPG.POSIBILIDAD_ENEMIGO) {
+						mapa[i][j] = 'M';
+					} else {
+						mapa[i][j] = ' ';
+					}
+									
+					
+				}
+			}
+				
 		}
 		
 		mapa[RPG.posJugX][RPG.posJugY] = 'O';

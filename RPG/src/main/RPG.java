@@ -7,8 +7,10 @@ import java.util.ArrayList;
 import entidades.Inventario;
 import entidades.Jugador;
 import entidades.ListaObjetosPasivos;
+import entidades.ModeloMonstruo;
 import entidades.ObjetoActivo;
 import entidades.ObjetoPasivo;
+import entidades.ListaModelosMonstruos;
 import mapa.generacionMapa;
 
 public class RPG {
@@ -44,6 +46,8 @@ public class RPG {
 	
 	public static int CONT_MONSTRUOS_DERROTADOS = 0;
 	
+	public static ArrayList<ModeloMonstruo> listaMonstruos;
+	
 	public static ArrayList<ObjetoPasivo> listaObjPas;
 	
 	public static ArrayList<ObjetoPasivo> listaObjEquipados;
@@ -52,6 +56,9 @@ public class RPG {
 	
 	public static void main(String[] args) {
 	
+		ListaModelosMonstruos listaModelosMonstruos = new ListaModelosMonstruos();
+		listaMonstruos = listaModelosMonstruos.getListaMonstruos();
+		
 		ListaObjetosPasivos listaObjetosPasivos = new ListaObjetosPasivos();
 		listaObjPas = listaObjetosPasivos.getListaPasivos();
 		listaObjEquipados = new ArrayList<ObjetoPasivo>();
@@ -105,7 +112,7 @@ public class RPG {
 			
 			PISO ++;
 			
-			jugador.getInventario().getItem1().setCantidad(jugador.getInventario().getItem1().getCantidad() + (PISO * 10));
+			jugador.getInventario().getItem1().setCantidad(jugador.getInventario().getItem1().getCantidad() + (PISO * 7));
 			posJugY = 0;
 			posJugX = 0;
 			

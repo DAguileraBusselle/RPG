@@ -1,8 +1,10 @@
 package eventos;
 
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
+import entidades.ModeloMonstruo;
 import entidades.Monstruo;
 import entidades.ObjetoActivo;
 import entidades.ObjetoPasivo;
@@ -62,7 +64,8 @@ public class encounter {
 		
 			System.out.println("Elige\n\t1 - ATACAR"
 					+ "\n\t2 - DEFENDER"
-					+ "\n\t3 - INVENTARIO");
+					+ "\n\t3 - OBSERVAR"
+					+ "\n\t4 - INVENTARIO");
 			String decision = sc.nextLine();
 			
 				switch (decision.toLowerCase()) {
@@ -76,7 +79,11 @@ public class encounter {
 				opcionValida = true;
 				defender = true;
 				break;
-			case "3":		
+			case "3":				
+				opcionValida = true;
+				System.out.println(mons.getDescripcion());
+				break;
+			case "4":		
 				System.out.println(RPG.jugador.getInventario().toString());	
 				generacionMapa.navegarInventario();
 				opcionValida = true;
@@ -122,7 +129,7 @@ public class encounter {
 			
 		}
 		
-		int expMons = (mons.getNivel() * 3) + (RPG.PISO *7);
+		int expMons = ((mons.getNivel() * 3)/RPG.PISO) + (RPG.PISO *7);
 		RPG.EXPERIENCIA += expMons;
 		System.out.println("CONSEGUISTE " + expMons + "EXP");
 		RPG.CONT_MONSTRUOS_DERROTADOS++;
@@ -141,35 +148,33 @@ public class encounter {
 	}
 
 	public Monstruo generarMonstruo() {
-		Monstruo monstruo;
-		String clase = Monstruo.clases[rd.nextInt(2 - 0) + 0];
-		int vidaBase = 0;
-		int danioBase = 0;
-				
-		switch (clase) {
-			case "zombie":
-				vidaBase = 75;
-				danioBase = 15;
-			break;
-	
-			case "esqueleto":
-				vidaBase = 45;
-				danioBase = 20;
-			break;
-			
-			case "lagarto":
-				vidaBase = 125;
-				danioBase = 5;
-			break;
+		ArrayList<ModeloMonstruo> listaMons = new ArrayList<>();
+		
+		
+		
+		for (ModeloMonstruo mons: RPG.listaMonstruos) {
+			if (RPG.PISO >= mons.getPisoMinimo() && RPG.PISO <= mons.getPisoMaximo() && RPG.PISO % 5 != 0) {
+				listaMons.add(mons);
+				System.out.println(mons.getClase());
+			} else if (mons.getPisoMaximo() == 0 && mons.getPisoMinimo() == 0) {
+				listaMons.add(mons);
+			}
+		}
+		ModeloMonstruo modelMons = null;
+		
+		if (listaMons.size() > 1) {
+			int rdEncounter = rd.nextInt((listaMons.size()) - 1) + 1;
+			modelMons = listaMons.get(rdEncounter - 1);
+		} else {
+			modelMons = listaMons.get(0);
 		}
 		
 		
 		int nivel = rd.nextInt((RPG.PISO*10) - (RPG.PISO*10 - 9)) + (RPG.PISO*10 - 9);
-		
-		int vida = (nivel * 11) + (vidaBase * 1);
-		int danio = (nivel * 3) + (danioBase * 1);
-		
-		monstruo = new Monstruo(clase, nivel, vida, danio);
+		int vida = modelMons.getVidaBase() + (nivel*modelMons.getEscaladoVida());
+		int danio = modelMons.getDanioBase() + (nivel*modelMons.getEscaladoDanio());
+				
+		Monstruo monstruo = new Monstruo(modelMons.getClase(), nivel, vida, danio, modelMons.getDescripcion());
 				
 		return monstruo;
 	}
@@ -417,12 +422,12 @@ public class encounter {
 		int tipoPocion = rd.nextInt(250 - 0) + 0;
 		String nombre  = "pocion ";
 		
-		if (tipoPocion >= 0 && tipoPocion <= 150) {
-			nombre += "simple";
-		} else if (tipoPocion > 150 && tipoPocion <= 200) {
+		if (tipoPocion > 150 && tipoPocion <= 200 && RPG.PISO > 5) {
 			nombre += "media";
-		} else {
+		} else if (tipoPocion > 200 && RPG.PISO > 15){
 			nombre += "concentrada";
+		} else {
+			nombre += "simple";
 		}
 		
 		
@@ -437,14 +442,29 @@ public class encounter {
 		}
 		
 		String descripcion = "cura " + intensidad + " puntos de vida";
+		int posCantMedia = 0;
 		
 		int cantidad = 0;
 		if (nombre.equals("pocion simple")) {
-			cantidad = rd.nextInt((RPG.PISO*10) - RPG.PISO) + RPG.PISO;
+			cantidad = rd.nextInt((RPG.jugador.getNivel()*10-RPG.PISO) - 1) + 1;
+			if (cantidad > 80) {
+				cantidad = 80;
+			}
 		} else if (nombre.equals("pocion media")) {
-			cantidad = rd.nextInt((RPG.PISO*2) - RPG.PISO) + RPG.PISO;
+			cantidad = rd.nextInt((RPG.PISO) - RPG.PISO) + RPG.PISO;
+			if (cantidad > 45) {
+				cantidad = 45;
+			}
 		} else {
-			cantidad = 1;
+			posCantMedia = rd.nextInt(100 - 1) + 1;
+			if (posCantMedia <=75) {
+				cantidad = 1;
+			} else if (posCantMedia > 75 && posCantMedia <= 90) {
+				cantidad = 3;
+			} else {
+				cantidad = 5;
+			}
+			
 		}
 		
 		
