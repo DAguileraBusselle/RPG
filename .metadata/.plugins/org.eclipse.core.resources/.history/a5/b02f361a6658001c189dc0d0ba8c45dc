@@ -1,9 +1,0 @@
-package entidades;
-
-public class Inventario extends Objeto {
-
-	private Objeto item1;
-	private Objeto item2;
-	
-	
-}

@@ -82,6 +82,13 @@ public class encounter {
 			case "3":				
 				opcionValida = true;
 				System.out.println(mons.getDescripcion());
+				sc.nextLine();
+				if(mons.getClase().equals("Fantasma timido")) {
+					for (int i = 0; i < 35; ++i) System.out.println();
+					System.out.println("HAS MUERTO");
+					for (int i = 0; i < 24; ++i) System.out.println();
+					System.exit(0);
+				}
 				break;
 			case "4":		
 				System.out.println(RPG.jugador.getInventario().toString());	
@@ -149,22 +156,35 @@ public class encounter {
 
 	public Monstruo generarMonstruo() {
 		ArrayList<ModeloMonstruo> listaMons = new ArrayList<>();
-		
-		
-		
+						
 		for (ModeloMonstruo mons: RPG.listaMonstruos) {
-			if (RPG.PISO >= mons.getPisoMinimo() && RPG.PISO <= mons.getPisoMaximo() && RPG.PISO % 5 != 0) {
-				listaMons.add(mons);
-				System.out.println(mons.getClase());
-			} else if (mons.getPisoMaximo() == 0 && mons.getPisoMinimo() == 0) {
-				listaMons.add(mons);
+			if (RPG.PISO % 5 == 0) {
+				if (mons.getPisoMaximo() == 0 && mons.getPisoMinimo() == 0) {
+					listaMons.add(mons);
+				}
+					
+			} else {
+				if (RPG.PISO >= mons.getPisoMinimo() && RPG.PISO <= mons.getPisoMaximo()) {
+					listaMons.add(mons);
+				} 
 			}
+			
 		}
+		
+		/*for (ModeloMonstruo modelMons : listaMons) {
+			System.out.println(modelMons.getClase());
+		}*/
+		
 		ModeloMonstruo modelMons = null;
 		
-		if (listaMons.size() > 1) {
-			int rdEncounter = rd.nextInt((listaMons.size()) - 1) + 1;
-			modelMons = listaMons.get(rdEncounter - 1);
+		if (listaMons.size() > 1) {	
+			int rdEncounter = rd.nextInt(listaMons.size() - 0) + 0;			
+			modelMons = listaMons.get(rdEncounter);
+			while (modelMons.getClase().equals(RPG.monstruoAnterior)) {
+				rdEncounter = rd.nextInt(listaMons.size() - 0) + 0;			
+				modelMons = listaMons.get(rdEncounter);
+			}
+						
 		} else {
 			modelMons = listaMons.get(0);
 		}
@@ -175,7 +195,9 @@ public class encounter {
 		int danio = modelMons.getDanioBase() + (nivel*modelMons.getEscaladoDanio());
 				
 		Monstruo monstruo = new Monstruo(modelMons.getClase(), nivel, vida, danio, modelMons.getDescripcion());
-				
+		
+		RPG.monstruoAnterior = monstruo.getClase();
+		
 		return monstruo;
 	}
 
@@ -446,12 +468,12 @@ public class encounter {
 		
 		int cantidad = 0;
 		if (nombre.equals("pocion simple")) {
-			cantidad = rd.nextInt((RPG.jugador.getNivel()*10-RPG.PISO) - 1) + 1;
+			cantidad = rd.nextInt((RPG.jugador.getNivel()*5-RPG.PISO) - 1) + 1;
 			if (cantidad > 80) {
 				cantidad = 80;
 			}
 		} else if (nombre.equals("pocion media")) {
-			cantidad = rd.nextInt((RPG.PISO) - RPG.PISO) + RPG.PISO;
+			cantidad = rd.nextInt((RPG.PISO+1) - 1) + 1;
 			if (cantidad > 45) {
 				cantidad = 45;
 			}

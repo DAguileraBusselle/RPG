@@ -63,11 +63,10 @@ public class generacionMapa {
 		
 		while(!direccionValida) {
 			
-			System.out.println("Introduzca su movimiento (arriba, abajo, derecha, izquierda) o inventario");
+			System.out.println("Introduzca su movimiento arriba(w), abajo(s), derecha(d), izquierda(a) o inventario(i)");
 			String direccion = sc.nextLine();
 			
-			if (((direccion.equals("arriba")) || direccion.equals("abajo") || direccion.equals("derecha") || direccion.equals("izquierda") ||
-					direccion.equals("a") || direccion.equals("w") || direccion.equals("s") || direccion.equals("d")) && RPG.jugador.getVelocidad() > 1) {
+			if ((direccion.equals("a") || direccion.equals("w") || direccion.equals("s") || direccion.equals("d")) && RPG.jugador.getVelocidad() > 1) {
 								
 				boolean valido = true;
 				do {
@@ -94,7 +93,7 @@ public class generacionMapa {
 			}
 						
 				switch (direccion.toLowerCase()) {
-			case "arriba", "w":
+			case /*"arriba",*/ "w":
 				
 					if(RPG.posJugY - casillas < 0) {
 						System.out.println("No se puede ir mas arriba");
@@ -104,7 +103,7 @@ public class generacionMapa {
 					}
 									
 				break;
-			case "abajo", "s":
+			case /*"abajo",*/ "s":
 				
 					if (RPG.posJugY + casillas == mapa.length) {
 						System.out.println("No se puede ir mas abajo");
@@ -114,7 +113,7 @@ public class generacionMapa {
 					}
 				
 				break;
-			case "derecha", "d":
+			case /*"derecha",*/ "d":
 					if (RPG.posJugX + casillas == mapa[0].length) {
 						System.out.println("No se puede ir mas a la derecha");
 					} else {
@@ -123,7 +122,7 @@ public class generacionMapa {
 					}
 				
 				break;
-			case "izquierda", "a":
+			case /*"izquierda",*/ "a":
 					if (RPG.posJugX - casillas < 0) {
 						System.out.println("No se puede ir mas a la izquierda");
 					} else {
@@ -132,7 +131,7 @@ public class generacionMapa {
 					}
 				
 				break;	
-			case "inventario", "i":
+			case /*"inventario",*/ "i":
 				System.out.println(RPG.jugador.getInventario().toString());	
 				navegarInventario();
 				break;
@@ -194,7 +193,7 @@ public class generacionMapa {
 		
 		
 		while(!opcionValida) { 
-			System.out.println("Introduce su opcion (1 - 9) o cancelar");
+			System.out.println("Introduce su opcion (1 - 9) o cancelar (c)");
 			String opcion = sc.nextLine();
 		
 				switch (opcion.toLowerCase()) {
@@ -273,7 +272,7 @@ public class generacionMapa {
 				}
 				opcionValida = true;
 				break;
-			case "cancelar", "c":				
+			case /*"cancelar",*/ "c":				
 				opcionValida = true;
 				
 				break;
